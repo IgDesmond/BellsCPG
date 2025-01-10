@@ -10,18 +10,18 @@ postgrad_data  = pd.read_csv("data.csv")
 if menu == "Student Check":
     st.title("Check Your Registration Status")
 
-    section = st.radio("Select Section", ["Undergraduate", "Postgraduate"])
+    section = st.radio("Select Prog", ["Undergraduate", "Postgraduate"])
 
     if section == "Undergraduate":
         data = undergrad_data
     else:
         data = postgrad_data
 
-    student_id = st.text_input("Enter your Student ID:")
+    student_id = st.text_input("Enter your Mat Number:")
     
-    if st.button("Check Status"):
-        if student_id in data['ID'].values:
-            student = data[data['ID'] == student_id]
+    if st.button("Verify Me"):
+        if student_id in data['Mat Number'].values:
+            student = data[data['Mat Number'] == student_id]
             st.success(f"Registration Found!\nName: {student['Name'].values[0]}\nDepartment: {student['Department'].values[0]}\nSession: {student['Session'].values[0]}")
         else:
             st.error("No registration found for the provided Student ID.")
@@ -34,7 +34,7 @@ elif menu == "Lecturer View":
     correct_password = "lecturer123"  # Example password
 
     if password == correct_password:
-        section = st.radio("Select Section", ["Undergraduate", "Postgraduate"])
+        section = st.radio("Select Programme", ["Undergraduate", "Postgraduate"])
 
         if section == "Undergraduate":
             data = undergrad_data
