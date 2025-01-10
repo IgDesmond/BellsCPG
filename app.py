@@ -7,6 +7,12 @@ postgrad_data = pd.read_csv("data.csv")    # Postgraduate data
 
 undergrad_data['Mat Number'] = undergrad_data['Mat Number'].astype(str)
 postgrad_data['Mat Number'] = postgrad_data['Mat Number'].astype(str)
+
+# Remove *  and spaces from all columns
+undergrad_data = undergrad_data.applymap(lambda x: x.replace('*', '') if isinstance(x, str) else x)
+undergrad_data = undergrad_data.applymap(lambda x: x.rstrip() if isinstance(x, str) else x)
+
+
 # Sidebar navigation
 st.sidebar.title("Student Verification App")
 menu = st.sidebar.radio("Navigation", ["Undergraduate", "Postgraduate"])
@@ -42,7 +48,15 @@ if menu == "Undergraduate":
 
         if password == correct_password:
             department = st.selectbox("Select Department", undergrad_data['Department'].unique())
+            # Filter by Department
             filtered_data = undergrad_data[undergrad_data['Department'] == department]
+
+            # Select Level
+            if not filtered_data.empty:
+                level = st.selectbox("Select Level", sorted(filtered_data['Level'].unique()))
+                
+                # Filter by Level
+                filtered_data = filtered_data[filtered_data['Level'] == level]
 
             if st.button("View Students"):
                 if not filtered_data.empty:
